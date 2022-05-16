@@ -1,5 +1,6 @@
 package com.springboot.comodologinservice.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -16,15 +17,25 @@ public class UserService {
   private UserRepository userRepository;
 
 
-  public TodoUserIO getUserByEmailAndPassword(String email, String password) {
-    List<TodoUser> list = userRepository.findByEmailAndPassword(email, password);
+  public TodoUserIO getUserByEmail(String email) {
+    List<TodoUser> list = userRepository.findByEmail(email);
 
     if (list.isEmpty()) {
-      throw new ResourceNotFoundException(
-          "getUserByEmailAndPassword email:" + email + " password:" + password);
+      return null;
     } else {
       return fromEntityToModel(list.get(0));
     }
+  }
+
+  public List<TodoUserIO> getUsers() {
+    List<TodoUserIO> userIOList = new ArrayList<>();
+    List<TodoUser> list = userRepository.findAll();
+
+    for (TodoUser user : list) {
+      userIOList.add(fromEntityToModel(user));
+    }
+
+    return userIOList;
   }
 
   public TodoUserIO saveUser(TodoUserIO model) {

@@ -65,8 +65,7 @@ class ComodoLoginServiceApplicationTests {
 
     TodoUserIO savedUserIO = userservice.saveUser(userIO);
 
-    TodoUserIO checkedUserIO =
-        userservice.getUserByEmailAndPassword("jack_jill@gmail.com", "password123");
+    TodoUserIO checkedUserIO = userservice.getUserByEmail("jack_jill@gmail.com");
 
     assertAll(() -> assertEquals("Jack", checkedUserIO.getName()),
         () -> assertEquals("Jill", checkedUserIO.getSurname()),
